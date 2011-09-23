@@ -37,11 +37,7 @@ public class Game {
     public void dealFlop() {
         deck.dealCard(); //Muck
         for(int i=0;i < 3;i++) communityCards.add(deck.dealCard());
-        System.out.println("Community cards: "+communityCards.get(0) + ", " + communityCards.get(1) +", " + communityCards.get(2));
-        for(Player player : players) {
-            HandRanker.checkRanking(player, communityCards);
-            System.out.println(player.getRank());
-        }
+        //System.out.println("Community cards: "+communityCards.get(0) + ", " + communityCards.get(1) +", " + communityCards.get(2)); 
     }
 
     public void dealTurn() {
@@ -52,6 +48,14 @@ public class Game {
     public void dealRiver() {
         deck.dealCard(); //Muck
         communityCards.add(deck.dealCard());
+        for(Card commCard: communityCards) {
+            System.out.println("Community cards: "+commCard+ ", ");
+        }
+        //Checking hand ranks
+        for(Player player : players) {
+            HandRanker.checkRanking(player, communityCards);
+            System.out.println(player.getRank());
+        }
     }
 
     /* For now, we allow players to have a negative credit - later we might wanna add a credit check */

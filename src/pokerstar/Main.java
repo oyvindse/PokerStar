@@ -23,9 +23,13 @@ public class Main {
         Game game = new Game(players, 8);
         game.initGame();
         game.placeBlinds();
+        
+        //Start dealing
         game.dealPreFlop();
         game.dealFlop();
-
+        game.dealTurn();
+        game.dealRiver();
+        
         System.out.println("Selmers highCard: "+HandRanker.getHighCard(players.get(0), null));
     }
 
