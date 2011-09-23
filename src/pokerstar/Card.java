@@ -25,21 +25,21 @@ public class Card implements Comparable {
     }
 
     @Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		} else if (!(obj instanceof Card)) {
-			return false;
-		} else {
-			Card card2 = (Card) obj;
-			return value.equals(card2.getValue()) && suit.equals(card2.getSuit());
-		}
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+	} else if (!(obj instanceof Card)) {
+            return false;
+        } else {
+            Card card2 = (Card) obj;
+            return value.equals(card2.getValue()) && suit.equals(card2.getSuit());
 	}
+    }
 
     @Override
-	public String toString() {
-		return "Suit: " + suit.toString() + ", Value :" + value.toString();
-	}
+    public String toString() {
+        return "Suit: " + suit.toString() + ", Value :" + value.toString();
+    }
 
     public int compareTo(Object o) {
          return (this.value.ordinal()+2) - (((Card) o).getValue().ordinal()+2);

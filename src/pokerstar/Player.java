@@ -64,4 +64,8 @@ public class Player {
     public void setRankList(List<Card> rankList) {
         this.rankList = rankList;
     }
+
+    void setHandRank(RankEnum rank) {
+        this.rank = rank;
+    }
 }

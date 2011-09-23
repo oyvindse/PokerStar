@@ -23,7 +23,8 @@ public class Main {
         Game game = new Game(players, 8);
         game.initGame();
         game.placeBlinds();
-        game.preFlop();
+        game.dealPreFlop();
+        game.dealFlop();
 
         System.out.println("Selmers highCard: "+HandRanker.getHighCard(players.get(0), null));
     }

@@ -25,12 +25,33 @@ public class Game {
         deck = new Deck();
         communityCards = new ArrayList<Card>();
     }
-    public void preFlop() {
+    
+    public void dealPreFlop() {
         for(Player player : players) {
             player.getCards()[0] = deck.dealCard();
             player.getCards()[1] = deck.dealCard();
             System.out.println(player.getName() + " , Hand: "+player.getCards()[0] + ", " + player.getCards()[1]);
         }
+    }
+
+    public void dealFlop() {
+        deck.dealCard(); //Muck
+        for(int i=0;i < 3;i++) communityCards.add(deck.dealCard());
+        System.out.println("Community cards: "+communityCards.get(0) + ", " + communityCards.get(1) +", " + communityCards.get(2));
+        for(Player player : players) {
+            HandRanker.checkRanking(player, communityCards);
+            System.out.println(player.getRank());
+        }
+    }
+
+    public void dealTurn() {
+        deck.dealCard(); //Muck
+        communityCards.add(deck.dealCard());
+    }
+
+    public void dealRiver() {
+        deck.dealCard(); //Muck
+        communityCards.add(deck.dealCard());
     }
 
     /* For now, we allow players to have a negative credit - later we might wanna add a credit check */
