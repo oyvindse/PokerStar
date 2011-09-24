@@ -1,6 +1,7 @@
 package pokerstar;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -19,7 +20,7 @@ public class Main {
         players.add(new Player("Svein", 1000.0));
         players.add(new Player("Kjell", 1000.0));
         players.add(new Player("Hilde", 1000.0));
-
+       
         Game game = new Game(players, 8);
         game.initGame();
         game.placeBlinds();
@@ -29,8 +30,14 @@ public class Main {
         game.dealFlop();
         game.dealTurn();
         game.dealRiver();
+
+        List<Player> winners = game.getWinner();
+        for(Player winner : winners) {
+            System.out.println("Winner: "+winner.getName());
+        }
         
-        System.out.println("Selmers highCard: "+HandRanker.getHighCard(players.get(0), null));
+        
+        //System.out.println("Selmers highCard: "+HandRanker.getHighCard(players.get(0), null));
     }
 
 }

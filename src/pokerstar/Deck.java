@@ -9,7 +9,7 @@ import java.util.Random;
  */
 public class Deck {
     private ArrayList<Card> cards;
-
+    //ctor
     public Deck() {
         createDeck();
     }

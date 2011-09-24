@@ -7,6 +7,7 @@ package pokerstar;
 public class Card implements Comparable {
     private SuitEnum suit;
     private ValueEnum value;
+    //ctor
     public Card(SuitEnum suit, ValueEnum value) {
         this.suit = suit;
         this.value = value;

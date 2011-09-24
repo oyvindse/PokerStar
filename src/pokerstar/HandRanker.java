@@ -21,8 +21,8 @@ public class HandRanker {
 		//ROYAL_FLUSH
 		List<Card> rankingList = getRoyalFlush(player, communityCards);
 		if (rankingList != null) {
-			setRankEnumAndList(player, ROYAL_FLUSH, rankingList);
-			return;
+                    setRankEnumAndList(player, ROYAL_FLUSH, rankingList);
+                    return;
 		}
 		//STRAIGHT_FLUSH
 		rankingList = getStraightFlush(player, communityCards);
@@ -59,8 +59,7 @@ public class HandRanker {
 		//THREE_OF_A_KIND
 		rankingList = getThreeOfAKind(player, communityCards);
 		if (rankingList != null) {
-			setRankEnumAndList(player, THREE_OF_A_KIND,
-					rankingList);
+			setRankEnumAndList(player, THREE_OF_A_KIND, rankingList);
 			return;
 		}
 		//TWO_PAIR
@@ -157,8 +156,8 @@ public class HandRanker {
     }
 
     public static List<Card> getThreeOfAKind(Player player, List<Card> communityCards) {
-		List<Card> mergedList = getMergedCardList(player, communityCards);
-		return checkPair(mergedList, 3);
+	List<Card> mergedList = getMergedCardList(player, communityCards);
+        return checkPair(mergedList, 3);
     }
 
     public static List<Card> getTwoPair(Player player, List<Card> communityCards) {
@@ -234,7 +233,7 @@ public class HandRanker {
 	return (sequenceList.size() == sequenceSize) ? sequenceList : null;
     }
     
-    private static List<Card> getMergedCardList(Player player, List<Card> communityCards) {
+    public static List<Card> getMergedCardList(Player player, List<Card> communityCards) {
 	List<Card> merged = new ArrayList<Card>();
 	merged.addAll(communityCards);
 	merged.add(player.getCards()[0]);
