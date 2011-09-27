@@ -101,6 +101,7 @@ public class HandRanker {
                                            && valueEnumList.contains(QUEEN)
                                            && valueEnumList.contains(KING)
 				           && valueEnumList.contains(ACE)) {
+
                                                return getMergedCardList(player, communityCards);
 	}
         return null;
