@@ -12,7 +12,7 @@ public class Card implements Comparable {
         this.suit = suit;
         this.value = value;
     }
-    
+   
     public SuitEnum getSuit() {
         return suit;
     }

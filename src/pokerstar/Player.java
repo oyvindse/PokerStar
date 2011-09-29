@@ -92,8 +92,8 @@ public class Player {
     }
 
     public void setBet(double bet) {
-        this.credits += getBet();
-        this.credits -= bet;
+//        this.credits += getBet(); //Is 0 if not blind, or have betted earlier this round.
+//        this.credits -= bet;
         this.bet = bet;
     }
     

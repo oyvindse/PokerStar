@@ -12,46 +12,65 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        boolean DEBUG = true;
         // TODO code application logic here
         ArrayList<Player> players = new ArrayList<Player>();
-        players.add(new Player("Selmer", 1000.0));
-        players.add(new Player("Hanna", 1000.0));
-        players.add(new Player("Svein", 1000.0));
-        players.add(new Player("Kjell", 1000.0));
-        players.add(new Player("Hilde", 1000.0));
-       
-        Game game = new Game(players, 10);
+        players.add(new Player("Selmer", 3000.0));
+        players.add(new Player("Hanna", 3000.0));
+        players.add(new Player("Paal", 3000.0));
+        players.add(new Player("Stian", 3000.0));
+        players.add(new Player("Tommy", 3000.0));
+        players.add(new Player("Roar", 3000.0));
+        players.add(new Player("Martin", 3000.0));
+        players.add(new Player("Mikael", 3000.0));
+        players.add(new Player("Dag", 3000.0));
+        players.add(new Player("Jostein", 3000.0));
+
+        boolean DEBUG = true;
+        int playerCount = 10;
+        Game game = new Game(new ArrayList<Player>(players.subList(0, playerCount)), 10);
         //Start new round
-        game.initGame();
-        game.placeBlinds();
+        int round = 0;
+        while(round < 1) {
+            game.initGame();
+            game.placeBlinds();
 
-        if(DEBUG)System.out.println("\n-Dealing preflop- ");
-        //Start dealing
-        game.dealPreFlop();
-        game.doBetting();
-        game.betsToPot();
+            if(DEBUG)System.out.println("\n-Dealing preflop- ");
+            //Start dealing
+            game.dealPreFlop();
+            game.doBetting();
+            game.betsToPot();
 
-        if(DEBUG)System.out.println("\n-Dealing flop- ");
-        game.dealFlop();
-        game.doBetting();
-        game.betsToPot();
+            if(DEBUG)System.out.println("\n-Dealing flop- ");
+            game.dealFlop();
+            game.doBetting();
+            game.betsToPot();
 
-        if(DEBUG)System.out.println("\n-Dealing turn- ");
-        game.dealTurn();
-        game.doBetting();
-        game.betsToPot();
-        
-        if(DEBUG)System.out.println("\n-Dealing river- ");
-        game.dealRiver();
-        game.doBetting();
-        game.betsToPot();
+            if(DEBUG)System.out.println("\n-Dealing turn- ");
+            game.dealTurn();
+            game.doBetting();
+            game.betsToPot();
 
-        List<Player> winners = game.getWinner();
-        for(Player winner : winners) {
-            System.out.println("Winner: "+winner.getName()+ " with "+winner.getRank());
+            if(DEBUG)System.out.println("\n-Dealing river- ");
+            game.dealRiver();
+            game.doBetting();
+            game.betsToPot();
+
+            List<Player> winners = game.getWinner();
+            if(DEBUG) {
+                for(Player winner : winners) {
+                    System.out.println("Winner: "+winner.getName()+ " with "+winner.getRank()+"\n");
+                }
+                for(Player player : players) {
+                    System.out.println(player.getName()+" credits: "+player.getCredits());
+                }
+            }
+            round++;
         }
-        //System.out.println("Selmers highCard: "+HandRanker.getHighCard(players.get(0), null));
+        if(!DEBUG) {
+            for(Player player : players) {
+                System.out.println(player.getName()+" credits: "+player.getCredits());
+            }
+        }
     }
 
 }

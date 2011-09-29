@@ -9,6 +9,7 @@ import java.util.List;
  * @author Oyvind Selmer
  */
 public class Game {
+    private final boolean DEBUG = true;
     private ArrayList<Player> players;
     private ArrayList<Player> playersInRound;
     private ArrayList<Card> communityCards; //Shared cards
@@ -27,12 +28,20 @@ public class Game {
         this.players = players;
         this.bigBlind = bigBlind;
         this.smallBlind = bigBlind / 2;
+        communityCards = new ArrayList<Card>();
     }
     
     public void initGame() {
         deck = new Deck();
-        communityCards = new ArrayList<Card>();
+        communityCards.clear();
         round = 0;
+        pot = 0;
+        highestBet = 0;
+        raises = 0;
+        playersInRound = new ArrayList<Player>();
+        for(Player player : players) {
+            player.setFolded(false);
+        }
     }
 
     /* For now, we allow players to have a negative credit - later we might wanna add a credit check */
@@ -42,15 +51,18 @@ public class Game {
         highestBet = bigBlind;
         players.get(0).setBet(smallBlind);
         playersInRound = players;
-        System.out.println(players.get(0).getName() + " posts Smallblind: " + smallBlind + " credits");
-        System.out.println(players.get(1).getName() + " posts Bigblind: " + bigBlind + " credits");
+        if(DEBUG) {
+            System.out.println(players.get(0).getName() + " posts Smallblind: " + smallBlind + " credits");
+            System.out.println(players.get(1).getName() + " posts Bigblind: " + bigBlind + " credits");
+        }
+        
     }
     
     public void dealPreFlop() {
         for(Player player : players) {
             player.getCards()[0] = deck.dealCard();
             player.getCards()[1] = deck.dealCard();
-            //System.out.println(player.getName() + " , Hand: "+player.getCards()[0] + ", " + player.getCards()[1]);
+            System.out.println(player.getName() + " , Hand: "+player.getCards()[0] + ", " + player.getCards()[1]);
         }
     }
 
@@ -99,10 +111,12 @@ public class Game {
                         else if(action == 0) {
                             player.setFolded(true);
                         }
-                         switch(action) {
-                            case 0: System.out.println(player.getName() + " folded");break;
-                            case 1: System.out.println(player.getName() + " calls: " + player.getBet()+" credits");break;
-                            case 2: System.out.println(player.getName() + " raises/bets with " + bigBlind + " which totals: " + player.getBet()+" credits");break;
+                        if(DEBUG){
+                            switch(action) {
+                                case 0: System.out.println(player.getName() + " folded");break;
+                                case 1: System.out.println(player.getName() + " calls: " + player.getBet()+" credits");break;
+                                case 2: System.out.println(player.getName() + " raises/bets with " + bigBlind + " which totals: " + player.getBet()+" credits");break;
+                            }
                         }
                     }
                     counter++;
@@ -139,10 +153,12 @@ public class Game {
                         }
                         else player.setFolded(true);
                     }
-                    switch(action) {
-                        case 0: System.out.println(player.getName() + " folded");break;
-                        case 1: System.out.println(player.getName() + " calls: " + player.getBet()+" credits");break;
-                        case 2: System.out.println(player.getName() + " raises/bets with " + bigBlind + " which totals: " + player.getBet()+" credits");break;
+                    if(DEBUG) {
+                        switch(action) {
+                            case 0: System.out.println(player.getName() + " folded");break;
+                            case 1: System.out.println(player.getName() + " calls: " + player.getBet()+" credits");break;
+                            case 2: System.out.println(player.getName() + " raises/bets with " + bigBlind + " which totals: " + player.getBet()+" credits");break;
+                        }
                     }
                     counter++;
                 }
@@ -151,7 +167,14 @@ public class Game {
         round++;
     }
 
+    public void updateBalance() {
+        for(Player player : players) {
+            player.setCredits(player.getCredits() - player.getBet());
+        }
+    }
+
     public void betsToPot() {
+        updateBalance();
         for(Player player : players) {
             double pBet = player.getBet();
             pot +=pBet;
@@ -160,7 +183,7 @@ public class Game {
             highestBet = 0;
         }
         removeFoldedPlayers();
-        System.out.println("The pot total: "+pot+" credits");
+        if(DEBUG)System.out.println("The pot total: "+pot+" credits");
     }
 
     public void dealFlop() {
@@ -182,7 +205,8 @@ public class Game {
         if(playersInRound.size()>1) {
             deck.dealCard(); //Muck
             communityCards.add(deck.dealCard());
-            //For testing purposes
+        }
+        if(DEBUG) {
             for(Card commCard: communityCards) {
                 System.out.println("Community cards: "+commCard+ ", ");
             }
@@ -195,7 +219,7 @@ public class Game {
         for(int i=0;i<players.size();i++) {
             if(!players.get(i).getFolded()) {
                 playersInRound.add(players.get(i));
-               System.out.println("Still in game(round "+round+"): "+players.get(i).getName());
+                if(DEBUG)System.out.println("Still in game(round "+round+"): "+players.get(i).getName());
             }
         }
         //if(playersInRound.get(0).getFolded())playersInRound.remove(0);
@@ -234,6 +258,10 @@ public class Game {
             }
             winnerRank = winner.getRank().ordinal();
         }
+        double winnings = pot / winnerList.size();
+        for(Player player : winnerList) {
+            player.setCredits(player.getCredits() + winnings);
+        }
         return winnerList;
     }
 
@@ -255,10 +283,10 @@ public class Game {
 	}
         return sum;
     }
+    
     @SuppressWarnings("unchecked")
     private Player checkHighCardWinner(Player player1, Player player2) {
-	Player winner = compareHighCard(player1, player1.getHighCard(),
-	player2, player2.getHighCard());
+	Player winner = compareHighCard(player1, player1.getHighCard(), player2, player2.getHighCard());
 	if (winner == null) {
             Card player1Card = HandRanker.getHighCard(player1, Collections.EMPTY_LIST);
             Card player2Card = HandRanker.getHighCard(player2, Collections.EMPTY_LIST);
@@ -288,9 +316,6 @@ public class Game {
         return null;
     }
 
-    /*
-     * TODO This method must be moved to RankingUtil
-     */
     private Card getSecondHighCard(Player player, Card card) {
         if (player.getCards()[0].equals(card)) {
             return player.getCards()[1];

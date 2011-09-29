@@ -236,9 +236,9 @@ public class HandRanker {
     
     public static List<Card> getMergedCardList(Player player, List<Card> communityCards) {
 	List<Card> merged = new ArrayList<Card>();
-	merged.addAll(communityCards);
-	merged.add(player.getCards()[0]);
+        merged.add(player.getCards()[0]);
 	merged.add(player.getCards()[1]);
+	merged.addAll(communityCards);
 	return merged;
     }
 
