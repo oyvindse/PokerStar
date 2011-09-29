@@ -20,6 +20,9 @@ public class Player {
     private double bet = 0;
 
     //ctor
+    public Player() {
+    }
+    
     public Player(String name, double credits) {
         this.name = name;
         this.credits = credits;
