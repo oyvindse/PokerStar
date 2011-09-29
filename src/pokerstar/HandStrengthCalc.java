@@ -88,8 +88,13 @@ public class HandStrengthCalc
             myCards.add(holeCards.get(i));
 
         }
-        player2.getCards()[0] = holeCards.get(0);
-        player2.getCards()[1] = holeCards.get(1);
+        //System.out.println(holeCards.get(0));
+        Card[] carrds = new Card[2];
+        carrds[0] = holeCards.get(0);
+        carrds[1] = holeCards.get(1);
+        player2.setCards(carrds);
+//        player2.getCards()[0] = holeCards.get(0);
+//        player2.getCards()[1] = holeCards.get(1);
         HandRanker.checkRanking(player2, sharedCards);
         int winCounter = 0;
         int tieCounter = 0;

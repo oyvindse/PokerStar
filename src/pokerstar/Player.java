@@ -13,7 +13,9 @@ public class Player {
     private String name;
     private boolean hasFolded;
     private int playerType;
+    //Helpers
     private DBManager db;
+    private HandStrengthCalc handStrength;
     //Hand properties
     private Card[] cards = new Card[2];
     private RankEnum rank;
@@ -109,7 +111,7 @@ public class Player {
      * 2 = turn     |   2 = raise
      * 3 = river    |
      */
-    public int makeAction(int round, int raises, double highestBet, boolean lastBetter, int players) {
+    public int makeAction(int round, int raises, double highestBet, boolean lastBetter, int players, ArrayList<Card> communityCards) {
         if(playerType == 1) {
             Random randomGen = new Random();
             int action = 0;
@@ -140,8 +142,8 @@ public class Player {
             return action;
         }
         else {
-            int rateForRaise = 0;
-            int rateForCall = 0;
+            double rateForRaise = 0;
+            double rateForCall = 0;
             ArrayList<String> rollout;
             if(round == 0) {
                 //Is blind
@@ -184,7 +186,7 @@ public class Player {
                     }
                 }
                 else {
-                    rateForRaise = 3000;
+                    rateForRaise = 2500;
                     rateForCall = 1100;
                     rollout = db.getRating(""+cards[0].getValue().name(), ""+cards[1].getValue().name(), ""+players);
                     for(int j=0;j<rollout.size();j++) {
@@ -209,6 +211,19 @@ public class Player {
                         }
                     }
                 }
+            }
+            else if(round > 0) {
+                rateForRaise = 0.15;
+                rateForCall = 0.075;
+                handStrength = new HandStrengthCalc();
+                ArrayList<Card> pocket = new ArrayList<Card>();
+                pocket.add(cards[0]);
+                pocket.add(cards[1]);
+                double hs = handStrength.getHandStrengthCalc(pocket, communityCards, players);
+                //System.out.println("rating:" +hs);
+                if(hs > rateForRaise || (lastBetter && highestBet == 0)) return 2;
+                else if(hs > rateForCall) return 1;
+                else return 0;
             }
             return 1;
         }

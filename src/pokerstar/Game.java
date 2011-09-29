@@ -9,7 +9,8 @@ import java.util.List;
  * @author Oyvind Selmer
  */
 public class Game {
-    private final boolean DEBUG = true;
+    private final boolean DEBUG = false;
+
     private ArrayList<Player> players;
     private ArrayList<Player> playersInRound;
     private ArrayList<Card> communityCards; //Shared cards
@@ -62,7 +63,7 @@ public class Game {
         for(Player player : players) {
             player.getCards()[0] = deck.dealCard();
             player.getCards()[1] = deck.dealCard();
-            System.out.println(player.getName() + " , Hand: "+player.getCards()[0] + ", " + player.getCards()[1]);
+            if(DEBUG)System.out.println(player.getName() + " , Hand: "+player.getCards()[0] + ", " + player.getCards()[1]);
         }
     }
 
@@ -85,7 +86,8 @@ public class Game {
                 for(int i=0; i<playersInRound.size();i++) {
                     player = playersInRound.get(i);
                     if(!player.getFolded() && counter > 1) {
-                        action = player.makeAction(round, raises, highestBet, lastBetter, playersInRound.size());
+                        if(raiser == i+1)lastBetter = true;
+                        action = player.makeAction(round, raises, highestBet, lastBetter, playersInRound.size(), communityCards);
                         //if everyone else called/folded the betting ends
                         if(raiser == i) {
                             bettingDone=true;
@@ -126,8 +128,9 @@ public class Game {
             else {
                 for(int i=0; i<playersInRound.size();i++) { 
                     player = playersInRound.get(i);
-                    if(i == playersInRound.size()-1)lastBetter = true;
-                    action = player.makeAction(round, raises, highestBet, lastBetter, playersInRound.size());
+                    if(i == playersInRound.size()-1)lastBetter=true;
+                    //if(raiser == i+1)lastBetter = true;
+                    action = player.makeAction(round, raises, highestBet, lastBetter, playersInRound.size(), communityCards);
                     if((raiser == i && counter > 0) || playersInRound.size() == 1) {
                         bettingDone=true;
                         round++;
