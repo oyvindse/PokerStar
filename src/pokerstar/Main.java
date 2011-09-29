@@ -14,16 +14,16 @@ public class Main {
     public static void main(String[] args) {
         // TODO code application logic here
         ArrayList<Player> players = new ArrayList<Player>();
-        players.add(new Player("Selmer", 3000.0));
-        players.add(new Player("Hanna", 3000.0));
-        players.add(new Player("Paal", 3000.0));
-        players.add(new Player("Stian", 3000.0));
-        players.add(new Player("Tommy", 3000.0));
-        players.add(new Player("Roar", 3000.0));
-        players.add(new Player("Martin", 3000.0));
-        players.add(new Player("Mikael", 3000.0));
-        players.add(new Player("Dag", 3000.0));
-        players.add(new Player("Jostein", 3000.0));
+        players.add(new Player("Selmer", 3000.0, 1));
+        players.add(new Player("Hanna", 3000.0, 1));
+        players.add(new Player("Paal", 3000.0, 1));
+        players.add(new Player("Stian", 3000.0, 1));
+        players.add(new Player("Tommy", 3000.0, 1));
+        players.add(new Player("Roar", 3000.0, 1));
+        players.add(new Player("Martin", 3000.0, 1));
+        players.add(new Player("Mikael", 3000.0, 1));
+        players.add(new Player("Dag", 3000.0, 1));
+        players.add(new Player("Jostein", 3000.0, 1));
 
         boolean DEBUG = true;
         int playerCount = 10;

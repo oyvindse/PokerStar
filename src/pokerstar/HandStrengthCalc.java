@@ -101,7 +101,6 @@ public class HandStrengthCalc
             ArrayList<Card> checkList = new ArrayList<Card>();
             checkList.add(cardList.get(i).getCard1());
             checkList.add(cardList.get(i).getCard2());
-            //System.out.println("jaa" + checkList.get(i));
             for (int j = 0; j < sharedCards.size(); j++)
             {
                 checkList.add(sharedCards.get(j));
@@ -135,6 +134,7 @@ public class HandStrengthCalc
 
     public static void main(String[] args)
     {
+        //For testing purposes
         HandStrengthCalc hs = new HandStrengthCalc();
         ArrayList<Card> holeCards = new ArrayList<Card>();
         ArrayList<Card> sharedCards = new ArrayList<Card>();
@@ -145,15 +145,6 @@ public class HandStrengthCalc
         sharedCards.add(new Card(SuitEnum.SPADE, ValueEnum.FOUR));
         sharedCards.add(new Card(SuitEnum.SPADE, ValueEnum.FIVE));
         sharedCards.add(new Card(SuitEnum.SPADE, ValueEnum.SIX));
-
-//        holeCards.add(new Card(3, "S"));
-//        holeCards.add(new Card(7, "S"));
-//
-//        sharedCards.add(new Card(6, "S"));
-//        sharedCards.add(new Card(5, "S"));
-//        sharedCards.add(new Card(4, "S"));
-
-
 
 
         System.out.println(hs.getHandStrengthCalc(holeCards, sharedCards, 4));

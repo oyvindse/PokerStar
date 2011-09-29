@@ -85,7 +85,7 @@ public class Game {
                 for(int i=0; i<playersInRound.size();i++) {
                     player = playersInRound.get(i);
                     if(!player.getFolded() && counter > 1) {
-                        action = player.makeAction(round, raises, highestBet, lastBetter);
+                        action = player.makeAction(round, raises, highestBet, lastBetter, playersInRound.size());
                         //if everyone else called/folded the betting ends
                         if(raiser == i) {
                             bettingDone=true;
@@ -127,7 +127,7 @@ public class Game {
                 for(int i=0; i<playersInRound.size();i++) { 
                     player = playersInRound.get(i);
                     if(i == playersInRound.size()-1)lastBetter = true;
-                    action = player.makeAction(round, raises, highestBet, lastBetter);
+                    action = player.makeAction(round, raises, highestBet, lastBetter, playersInRound.size());
                     if((raiser == i && counter > 0) || playersInRound.size() == 1) {
                         bettingDone=true;
                         round++;
